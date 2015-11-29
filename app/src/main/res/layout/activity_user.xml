@@ -31,4 +31,31 @@
         android:layout_below="@+id/bindButton"
         android:enabled="true"/>
 
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_button_string"
+        android:textSize="24dp"
+        android:layout_below="@+id/registerButton"
+        android:enabled="true"/>
+
+    <Button
+        android:id="@+id/modifyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/modify_button_string"
+        android:textSize="24dp"
+        android:layout_below="@+id/loginButton"
+        android:enabled="true"/>
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/reset_button_string"
+        android:textSize="24dp"
+        android:layout_below="@+id/modifyButton"
+        android:enabled="true"/>
+
 </RelativeLayout>

@@ -1,7 +1,6 @@
-package iie.ac.cn.micoconnection.util;
+package iie.ac.cn.micoconnection.users;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.lidroid.xutils.HttpUtils;
@@ -16,42 +15,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.Map;
 
 import iie.ac.cn.micoconnection.R;
+import iie.ac.cn.micoconnection.utils.Utils;
 
 /**
- * Created by Rimon_Kou on 2015/11/27.
+ * Created by Rimon on 2015/11/29.
  */
-public class Util {
-
-    private final static char hexDigits[] = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
-    public static String getMD5(String val) throws NoSuchAlgorithmException{
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        md5.update(val.getBytes());
-        byte[] m = md5.digest();
-        return getString(m);
-    }
-
-    private static String getString(byte[] md){
-        int j = md.length;
-        char str[] = new char[j * 2];
-        int k = 0;
-        for (int i = 0; i < j; i++) {
-            byte byte0 = md[i];
-            str[k++] = hexDigits[byte0 >>> 4 & 0xf];
-            str[k++] = hexDigits[byte0 & 0xf];
-        }
-        return new String(str);
-    }
-
-    public static String getTimeStamp(){
-        Long timeStamp = System.currentTimeMillis()/1000;
-        return timeStamp.toString();
-    }
+public class UserHttpRequest {
 
     public static void sendHttpRequest(Map<String, String> keyParams, HttpRequest.HttpMethod method, String httpApi, final Context context){
         JSONObject postParam = new JSONObject();
@@ -62,11 +35,11 @@ public class Util {
         }catch (JSONException e){
             e.printStackTrace();
         }
-        String timeStamp = Util.getTimeStamp();
+        String timeStamp = Utils.getTimeStamp();
         String secret = context.getResources().getString(R.string.FogCloud_secret);
         String md5 = null;
         try {
-            md5 = Util.getMD5(secret + timeStamp);
+            md5 = Utils.getMD5(secret + timeStamp);
         }catch(NoSuchAlgorithmException e){
             e.printStackTrace();
         }

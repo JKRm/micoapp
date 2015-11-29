@@ -1,4 +1,4 @@
-package iie.ac.cn.micoconnection.util;
+package iie.ac.cn.micoconnection.utils;
 
 /**
  * Created by Rimon_Kou on 2015/11/27.
