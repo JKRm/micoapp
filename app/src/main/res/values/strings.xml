@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MicoConnection</string>
+    <string name="bind_button_string">bind</string>
+    <string name="register_button_string">regist</string>
+    <string name="FogCloud_id">acf2431f-077d-4b6b-87ed-aa4414913fbe</string>
+    <string name="FogCloud_secret">064b5941d95e09bdf3cb3870e080ae7d</string>
+</resources>
