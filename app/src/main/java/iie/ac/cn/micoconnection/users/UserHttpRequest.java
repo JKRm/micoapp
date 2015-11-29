@@ -1,10 +1,13 @@
 package iie.ac.cn.micoconnection.users;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
@@ -19,6 +22,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import iie.ac.cn.micoconnection.R;
+import iie.ac.cn.micoconnection.easylink.EasyLinkActivity;
 import iie.ac.cn.micoconnection.utils.Utils;
 
 /**
@@ -26,7 +30,8 @@ import iie.ac.cn.micoconnection.utils.Utils;
  */
 public class UserHttpRequest {
 
-    public static void sendHttpRequest(Map<String, String> keyParams, HttpRequest.HttpMethod method, String httpApi, final Context context){
+    public static int status = -1;
+    public static int sendHttpRequest(Map<String, String> keyParams, HttpRequest.HttpMethod method, String httpApi, final Context context){
         JSONObject postParam = new JSONObject();
         try {
             for(Map.Entry<String, String> entry : keyParams.entrySet()){
@@ -60,6 +65,10 @@ public class UserHttpRequest {
                     public void onSuccess(ResponseInfo<String> responseInfo) {
                         Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
                         Toast.makeText(context, responseInfo.result, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, EasyLinkActivity.class);
+                        status = 1;
+                        context.startActivity(intent);
+
                     }
 
                     @Override
@@ -76,7 +85,21 @@ public class UserHttpRequest {
                     public void onFailure(HttpException e, String s) {
                         Toast.makeText(context, "error", Toast.LENGTH_SHORT).show();
                         Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+                        status = 0;
                     }
                 });
+        int i = 0;
+        while (i < 10){
+            if(status != -1){
+                return status;
+            }
+            try {
+                Thread.sleep(2000);
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
+            i ++;
+        }
+        return status;
     }
 }

@@ -58,4 +58,13 @@
         android:layout_below="@+id/modifyButton"
         android:enabled="true"/>
 
+    <Button
+        android:id="@+id/elConnectionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/easylink_connection"
+        android:textSize="24dp"
+        android:layout_below="@+id/resetButton"
+        android:enabled="true"/>
+
 </RelativeLayout>
