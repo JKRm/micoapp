@@ -14,17 +14,22 @@ public class EasyLinkOperation {
 
     private static EasyLinkWifiManager easyLinkWifiManager;
     private static EasyLinkAPI easyLinkAPI;
-    private static String WifiPassword = "adminwangyang";
     private final static String TAG = "EASYLINK_OPERATION";
+    private static String mico_IP = null;
+    private static Context context;
 
-    public static String startConnection(Context context){
-        easyLinkWifiManager = new EasyLinkWifiManager(context);
-        String SSID = easyLinkWifiManager.getCurrentSSID();
+    public EasyLinkOperation(Context context){
+        this.context = context;
+        easyLinkAPI = new EasyLinkAPI(context);
+    }
+
+    public String startConnection(String SSID, String WifiPassword){
         easyLinkAPI.startFTC(SSID, WifiPassword, new FTCListener() {
             @Override
             public void onFTCfinished(String ip, String jsonString) {
                 Log.e(TAG, ip + "" + jsonString);
                 easyLinkAPI.stopEasyLink();
+                mico_IP = ip;
             }
 
             @Override
@@ -32,6 +37,11 @@ public class EasyLinkOperation {
 
             }
         });
-        return null;
+        return mico_IP;
+    }
+
+    public void closeConnection(){
+        easyLinkAPI.stopFTC();
+        easyLinkAPI.stopEasyLink();
     }
 }

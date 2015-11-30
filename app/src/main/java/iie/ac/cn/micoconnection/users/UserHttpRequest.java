@@ -65,10 +65,7 @@ public class UserHttpRequest {
                     public void onSuccess(ResponseInfo<String> responseInfo) {
                         Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
                         Toast.makeText(context, responseInfo.result, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(context, EasyLinkActivity.class);
                         status = 1;
-                        context.startActivity(intent);
-
                     }
 
                     @Override

@@ -20,9 +20,9 @@ public class EasyLinkActivity extends AppCompatActivity {
     private Button stopsearch;
     private EditText wifissid;
     private EditText wifipsw;
-    public EasyLinkAPI elapi;
-    private Context ctx = null;
+    private String SSID;
     private EasyLinkWifiManager mWifiManager = null;
+    private EasyLinkOperation easyLinkOperation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,38 +33,23 @@ public class EasyLinkActivity extends AppCompatActivity {
         wifipsw = (EditText) findViewById(R.id.wifipsw);
         startsearch = (Button) findViewById(R.id.startsearch);
         stopsearch = (Button) findViewById(R.id.stopsearch);
-
-        ctx = EasyLinkActivity.this;
-        elapi = new EasyLinkAPI(ctx);
-
-        mWifiManager = new EasyLinkWifiManager(ctx);
-        wifissid.setText(mWifiManager.getCurrentSSID());
+        mWifiManager = new EasyLinkWifiManager(EasyLinkActivity.this);
+        SSID = mWifiManager.getCurrentSSID();
+        wifissid.setText(SSID);
+        easyLinkOperation = new EasyLinkOperation(EasyLinkActivity.this);
 
         startsearch.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                elapi.startFTC(wifissid.getText().toString().trim(),
-                        wifipsw.getText().toString(), new FTCListener() {
-                            @Override
-                            public void onFTCfinished(String ip,
-                                                      String jsonString) {
-                                Log.e("FTCEnd", ip + " " + jsonString);
-                                elapi.stopEasyLink();
-                            }
-
-                            @Override
-                            public void isSmallMTU(int MTU) {
-                            }
-                        });
+                easyLinkOperation.startConnection(SSID, wifipsw.getText().toString().trim());
             }
         });
         stopsearch.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                elapi.stopFTC();
-                elapi.stopEasyLink();
+                easyLinkOperation.closeConnection();
             }
         });
     }

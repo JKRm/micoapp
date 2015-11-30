@@ -24,7 +24,14 @@
     <string name="error_field_required">该字段不能为空</string>
     <string name="permission_rationale">"缺少邮箱获取权限"</string>
     <string name="error_send_code">发送失败</string>
+    <string name="resend_code">重新发送</string>
     <string name="title_activity_register">用户注册</string>
     <string name="text_register">新用户注册</string>
     <string name="verification_code">验证码</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

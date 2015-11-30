@@ -3,8 +3,8 @@ package iie.ac.cn.micoconnection.users;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import iie.ac.cn.micoconnection.R;
+import iie.ac.cn.micoconnection.utils.MyCountTimer;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -65,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private View mLoginFormView;
     private TextView mVerificationView;
     private Button mSendCodeButton;
-    private TimeCount timecouter;
+    private MyCountTimer mTimecouter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,10 +131,11 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 Map<String, String> keyParams = new HashMap<>();
                 keyParams.put("username", mEmailView.getText().toString());
                 //mSendCodeButton.setEnabled(false);
-                timecouter = new TimeCount(60000, 1000);
-                timecouter.start();
-                int status_code = UserHttpRequest.sendHttpRequest(keyParams, HttpRequest.HttpMethod.POST,
-                        "http://api.easylink.io/v2/users/email_verification_code", RegisterActivity.this);
+                mTimecouter = new MyCountTimer(mSendCodeButton, 0xfff30008, 0xff969696);
+                MutliThread mThread = new MutliThread(keyParams);
+                Thread thread = new Thread(mThread);
+                thread.start();
+                mTimecouter.start();
             }
         });
 
@@ -398,22 +400,16 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         }
     }
 
-    class TimeCount extends CountDownTimer {
-        public TimeCount(long millisInFuture, long countDownInterval) {
-            super(millisInFuture, countDownInterval);//参数依次为总时长,和计时的时间间隔
+    public class MutliThread implements Runnable{
+        private Map<String, String> keyParams;
+        MutliThread(Map<String, String> keyParams){
+            this.keyParams = keyParams;
         }
-        @Override
-        public void onFinish() {//计时完毕时触发
-            mSendCodeButton.setText("重新发送");
-            mSendCodeButton.setEnabled(true);
-        }
-        @Override
-        public void onTick(long millisUntilFinished){//计时过程显示
-            //mSendCodeButton.setEnabled(false);
-            mSendCodeButton.setText(millisUntilFinished / 1000 + "s");
+        public void run(){
+            int status_code = UserHttpRequest.sendHttpRequest(keyParams, HttpRequest.HttpMethod.POST,
+                        "http://api.easylink.io/v2/users/email_verification_code", RegisterActivity.this);
         }
     }
-
 
 }
 
